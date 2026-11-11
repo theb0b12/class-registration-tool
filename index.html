@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Schedule Optimizer</h1>
+        <p>Input your potential class options and find your ideal schedule.</p>
+    </header>
+
+    <main class="app-container">
+        <!-- Left Panel: Input & Settings -->
+        <section class="control-panel">
+            <div class="card">
+                <h2>Add Course</h2>
+                <form id="course-form">
+                    <div class="form-group">
+                        <label for="course-name" id="form-mode-label">Course Name / Code</label>
+                        <input type="text" id="course-name" placeholder="e.g. MATH 101" required>
+                    </div>
+
+                    <div id="sections-container">
+                        <label>Section Options</label>
+                        <div class="section-input-group">
+                            <input type="text" class="section-name" placeholder="Section (e.g. A or Lab 1)">
+                            <div class="day-picker">
+                                <label><input type="checkbox" value="M"> M</label>
+                                <label><input type="checkbox" value="T"> T</label>
+                                <label><input type="checkbox" value="W"> W</label>
+                                <label><input type="checkbox" value="Th"> Th</label>
+                                <label><input type="checkbox" value="F"> F</label>
+                            </div>
+                            <div class="time-picker">
+                                <input type="time" class="start-time" step="900" value="08:00" required>
+                                <select class="duration-select">
+                                    <option value="50">50 min</option>
+                                    <option value="75" selected>1 hr 15 min</option>
+                                    <option value="120">2 hours</option>
+                                </select>
+                                <span class="end-time-badge">9:15 AM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="button" id="add-meeting-btn" class="btn btn-secondary">+ Add Section</button>
+                        <button type="submit" id="save-course-btn" class="btn btn-primary">Save Course</button>
+                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary hidden">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Optimization Priorities</h2>
+                <div class="slider-group">
+                    <label for="weight-gap">Minimize Gaps Between Classes</label>
+                    <input type="range" id="weight-gap" min="0" max="10" value="5">
+                </div>
+                <div class="slider-group">
+                    <label for="weight-span">Minimize Total Day Length</label>
+                    <input type="range" id="weight-span" min="0" max="10" value="5">
+                </div>
+                <div class="slider-group">
+                    <label for="weight-days-off">Maximize Free Days Off</label>
+                    <input type="range" id="weight-days-off" min="0" max="10" value="5">
+                </div>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="max-daily-hours">Max Hours at School / Day (Optional Limit)</label>
+                    <input type="number" id="max-daily-hours" min="1" max="16" step="0.5" placeholder="e.g. 8 (No limit if blank)">
+                </div>
+                <div class="slider-group">
+                    <label for="pref-time">Class Time Preference</label>
+                    <select id="pref-time">
+                        <option value="none">No Preference</option>
+                        <option value="early">Prefer Early Classes</option>
+                        <option value="late">Prefer Late Classes</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="max-consecutive-hours">Max Class Hours in a Row (Gap &lt; 30m)</label>
+                    <input type="number" id="max-consecutive-hours" min="1" max="12" step="0.5" placeholder="e.g. 4 (No limit if blank)">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="must-start-after">Must Start After</label>
+                        <input type="time" id="must-start-after">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="must-finish-by">Must Finish By</label>
+                        <input type="time" id="must-finish-by">
+                    </div>
+                </div>
+                <button id="generate-btn" class="btn btn-accent">Generate Schedules</button>
+            </div>
+
+            <div class="card">
+                <h2>Saved Courses</h2>
+                <ul id="course-list" class="course-list"></ul>
+                <button id="clear-all-btn" class="btn btn-danger-outline">Clear All Courses</button>
+            </div>
+        </section>
+
+        <!-- Right Panel: Schedule View -->
+        <section class="display-panel">
+            <div class="card display-card">
+                <div class="results-header">
+                    <h2>Generated Schedules</h2>
+                    <div id="nav-controls" class="nav-controls hidden">
+                        <button id="prev-schedule" class="btn btn-small">&larr; Prev</button>
+                        <span id="schedule-counter">Schedule 1 of 1</span>
+                        <button id="next-schedule" class="btn btn-small">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <div id="schedule-metrics" class="metrics-bar hidden"></div>
+
+                <div class="schedule-grid" id="schedule-grid">
+                    <div class="grid-header-row">
+                        <div class="grid-header">Time</div>
+                        <div class="grid-header">Mon</div>
+                        <div class="grid-header">Tue</div>
+                        <div class="grid-header">Wed</div>
+                        <div class="grid-header">Thu</div>
+                        <div class="grid-header">Fri</div>
+                    </div>
+                    <div id="grid-body" class="grid-body-container"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
