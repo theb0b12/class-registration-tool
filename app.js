@@ -196,7 +196,7 @@ function createSectionRow(data = null) {
             <select class="duration-select">
                 <option value="50" ${duration === 50 ? "selected" : ""}>50 min</option>
                 <option value="75" ${duration === 75 ? "selected" : ""}>1 hr 15 min</option>
-                <option value="120" ${duration === 120 ? "selected" : ""}>2 hours</option>
+                <option value="110" ${duration === 110 ? "selected" : ""}>1 hr 50 min</option>
             </select>
             <span class="end-time-badge"></span>
         </div>
