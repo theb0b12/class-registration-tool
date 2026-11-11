@@ -63,8 +63,8 @@ sectionsContainer.addEventListener("input", (e) => {
 
 // Add Section Row
 addMeetingBtn.addEventListener("click", () => {
-    const durationSelect = template.querySelector(".duration-select");
-    if (durationSelect) durationSelect.value = "50"; // default to 50 min
+    const group = createSectionRow();
+    sectionsContainer.appendChild(group);
 });
 
 // Cancel Edit Mode
