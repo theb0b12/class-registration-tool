@@ -63,8 +63,8 @@ sectionsContainer.addEventListener("input", (e) => {
 
 // Add Section Row
 addMeetingBtn.addEventListener("click", () => {
-    const group = createSectionRow();
-    sectionsContainer.appendChild(group);
+    const durationSelect = template.querySelector(".duration-select");
+    if (durationSelect) durationSelect.value = "50"; // default to 50 min
 });
 
 // Cancel Edit Mode
@@ -181,7 +181,7 @@ function createSectionRow(data = null) {
     div.className = "section-input-group";
     const secName = data ? data.name : "";
     const startTime = data ? data.startTime : "08:00";
-    const duration = data ? (data.duration || (data.endMinutes - data.startMinutes)) : 75;
+    const duration = data ? (data.duration || (data.endMinutes - data.startMinutes)) : 50;
     const selectedDays = data ? data.days : [];
 
     div.innerHTML = `
